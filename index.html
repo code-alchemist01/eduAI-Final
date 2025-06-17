@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EduAI - Yapay Zeka Destekli Eğitim Asistanı</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" integrity="sha384-wcPFxkKWCukT6KNPnMkjV1G35K1kRmbMuMNzsD_k43nNfR_g/hL5/T8jQDRS0_uS" crossorigin="anonymous">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px; /* Slightly thinner */
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9; /* slate-100, softer track */
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #a3b8d0; /* Lighter slate-400 equivalent */
+        border-radius: 10px;
+        border: 2px solid #f1f5f9; /* slate-100, padding effect */
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #829ab1; /* Darker slate-500 equivalent */
+      }
+
+      /* Shimmer animation for Skeleton Loader */
+      @keyframes shimmer {
+        0% { background-position: -1000px 0; }
+        100% { background-position: 1000px 0; }
+      }
+      .animate-shimmer {
+        animation: shimmer 2s infinite linear;
+        background: linear-gradient(to right, #e2e8f0 4%, #f1f5f9 25%, #e2e8f0 36%);
+        background-size: 1000px 100%;
+      }
+
+      /* Animated gradient for header text */
+      @keyframes animatedGradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .animated-gradient-text {
+        background-size: 200% 200%;
+        animation: animatedGradient 4s ease infinite;
+      }
+
+      /* Staggered children animation */
+      .stagger-children > * {
+        animation: fadeInChild 0.5s ease-out forwards;
+        opacity: 0;
+      }
+      @keyframes fadeInChild {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Added class for individually animated nested items */
+      .animate-staggered-item {
+        animation-name: fadeInChild;
+        animation-duration: 0.5s;
+        animation-timing-function: ease-out;
+        animation-fill-mode: forwards;
+      }
+
+      /* Flashcard Animation CSS */
+      .flashcard-container {
+        perspective: 1000px;
+        margin-top: 1.5rem; /* Tailwind's mt-6 */
+      }
+      .flashcard {
+        width: 100%;
+        min-height: 150px; /* Minimum height for a card */
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+        cursor: pointer;
+      }
+      .flashcard.flipped {
+        transform: rotateY(180deg);
+      }
+      .flashcard-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column; /* Allow content stacking */
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem; /* Tailwind's p-6 */
+        border-radius: 0.5rem; /* Tailwind's rounded-lg */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Tailwind's shadow-md */
+        text-align: center;
+        overflow-y: auto; /* For content that might overflow */
+      }
+      .flashcard-front {
+        background-color: #f0f9ff; /* Tailwind's sky-50 */
+        border: 1px solid #bae6fd; /* Tailwind's sky-200 */
+        color: #0c4a6e; /* Tailwind's sky-800 */
+      }
+      .flashcard-back {
+        background-color: #f5f3ff; /* Tailwind's violet-50 */
+        border: 1px solid #ddd6fe; /* Tailwind's violet-200 */
+        color: #5b21b6; /* Tailwind's violet-700 */
+        transform: rotateY(180deg);
+      }
+
+      /* KaTeX specific styles adjustments */
+      .katex-display { /* For block math $$...$$ */
+        margin-top: 1em;
+        margin-bottom: 1em;
+        overflow-x: auto; /* For very long equations */
+        overflow-y: hidden;
+        padding: 0.5em 0; 
+      }
+      .katex-block-container .katex-display { 
+          margin-left: auto;
+          margin-right: auto;
+      }
+      .prose .katex {
+        font-size: 1.0em; /* Adjusted from 1.1em for better flow with surrounding text */
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.1.0",
+    "katex": "https://esm.sh/katex@0.16.10/dist/katex.mjs"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gradient-to-br from-sky-50 via-indigo-50 to-purple-50 text-slate-800">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
